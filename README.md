@@ -35,7 +35,7 @@ Unlike time-based app blockers or complete lockouts, SageTech allows you to:
 
 ## How It Works
 
-1. SageTech runs in the background while you use other apps
+1. scrollana runs in the background while you use other apps
 2. As you scroll, it tracks the distance and displays creative comparisons
 3. The overlay becomes more prominent the more you scroll
 4. Connect with friends to see who can maintain the healthiest scrolling habits
@@ -43,7 +43,7 @@ Unlike time-based app blockers or complete lockouts, SageTech allows you to:
 
 ## Getting Started
 
-[Installation and setup instructions]
+Download from our published apk on github also give it all the permissions it needs 
 
 ## Privacy
 
@@ -55,10 +55,7 @@ SageTech values your privacy:
 ## Contributors
 Ikshu Patni 
 Sk Sahil Islam 
-Sheryash Neeraj
+Sheryash Neera
 Ansuman Samal
 
 
-## License
-
-[License information]

@@ -57,7 +57,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.savedstate:savedstate:1.2.1")
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
+
 }

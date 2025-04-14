@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
 import com.example.sagetech.ui.theme.SageTechTheme
 import androidx.core.net.toUri
+import com.example.sagetech.ui.screens.HomeScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,17 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SageTechTheme {
                 // A surface container using the 'background' color from the theme
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    content = { innerPadding ->
-                        Greeting(
-                            name = "Android",
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize()
-                        )
-                    }
-                )
+                HomeScreen()
             }
 
 

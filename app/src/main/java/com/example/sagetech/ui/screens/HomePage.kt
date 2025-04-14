@@ -158,7 +158,7 @@ fun HomeScreen() {
                         .padding(12.dp),
                 ) {
                     Text(
-                        text = " '${bullyList.get(2)}'",
+                        text = " '${bullyList.get((0 until bullyList.size).random())}'",
                         modifier = Modifier.padding(12.dp),
                         fontSize = 16.sp,
                         fontStyle = FontStyle.Italic

@@ -94,11 +94,11 @@ fun formatScrollDistance(scrollPixels: Int): String {
 
     // Demotivating, short action phrases (1-3 words)
     val actions = listOf(
-        "Wasted time",
-        "Nothing gained",
-        "Empty scroll",
+        "Wasted time scrolling",
+        "Nothing gained scrolling about",
+        "Empty scrolled,",
         "Hopelessly swiped",
-        "Pointless move"
+        "Pointless move scrolled,"
     )
 
     // Additional descriptors for variety.

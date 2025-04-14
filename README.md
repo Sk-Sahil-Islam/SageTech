@@ -4,6 +4,10 @@
 ## presentation link:
 https://www.canva.com/design/DAGkhkKYT8U/b1D-GqPs3mJG3xJNLD2L-A/view?utm_content=DAGkhkKYT8U&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbc2c740975
 
+
+## Application link :
+https://drive.google.com/drive/folders/1VzSD8xm5vhSB5V3hxaWrm6OR7iPofp6e?usp=sharing 
+
 ## About
 
 scrollana is a unique mobile application designed to help you become more mindful of your scrolling habits on social media and other apps. Instead of completely blocking your access to your favorite applications, SageTech takes a more gradual approach to help you develop healthier digital habits.

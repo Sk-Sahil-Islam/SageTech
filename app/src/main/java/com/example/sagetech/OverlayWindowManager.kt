@@ -19,6 +19,7 @@ import com.example.sagetech.DoomScrollOverlay
 object OverlayWindowManager {
     private var windowManager: WindowManager? = null
     private var overlayView: ComposeView? = null
+    private var isOverlayVisible = true
 
     // Create a combined LifecycleOwner and SavedStateRegistryOwner
     private val viewModelStoreOwner = object : LifecycleOwner, SavedStateRegistryOwner {
@@ -103,7 +104,19 @@ object OverlayWindowManager {
             Log.e("OverlayWindowManager", "Failed to update overlay", e)
         }
     }
-
+    fun toggleOverlayVisibility() {
+        overlayView?.let { view ->
+            isOverlayVisible = !isOverlayVisible
+            Handler(Looper.getMainLooper()).post {
+                view.visibility = if (isOverlayVisible) {
+                    android.view.View.VISIBLE
+                } else {
+                    android.view.View.GONE
+                }
+            }
+            Log.d("OverlayWindowManager", "Overlay visibility changed to: $isOverlayVisible")
+        }
+    }
     fun removeOverlay() {
         if (overlayView != null) {
             // Get the lifecycle registry and update its state

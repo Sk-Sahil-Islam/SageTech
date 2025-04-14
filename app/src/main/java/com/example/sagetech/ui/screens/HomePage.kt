@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -77,6 +81,10 @@ fun HomeScreen() {
     val feet = (savedScrollDistance.toFloat() / feetToPixels).roundToInt()
 
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         topBar = {
             ElevatedCard(
                 modifier = Modifier.padding(8.dp)
@@ -112,15 +120,35 @@ fun HomeScreen() {
         }
     ) { innerPadding ->
         LazyColumn(
-            Modifier.padding(innerPadding)
+            Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
             item {
-                Text(
-                    text = "You have Scrolled about ${feet} ft! ",
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(28.dp)
-                )
+                Column(Modifier.padding(28.dp)) {
+                    Text(
+                        text = "You have Scrolled",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Spacer(Modifier.height(20.dp))
+                    Text(
+                        text = "about ${feet} ft! ",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+
+            item {
+                Button(onClick = {
+                    OverlayWindowManager.toggleOverlayVisibility()
+                }, Modifier.padding(28.dp, 0.dp, 0.dp, 0.dp)) {
+                    Text(
+                        "Toggle  Overlay",
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
 
             item {

@@ -58,84 +58,41 @@ fun DoomScrollOverlay(
 
 
 
+data class ScrollMilestone(
+    val thresholdInFeet: Int,
+    val message: String
+)
 
 fun formatScrollDistance(scrollPixels: Int): String {
     // Conversion factor: 1 ft = 1152 * 5 pixels (5760 pixels per foot)
     val feetToPixels = 1152 * 5
 
-    // Object list: Pair(Value, Object Name)
-    val objects = listOf(
-        1 to "Banana",
-        2 to "Cat",
-        4 to "Human leg",
-        6 to "Human height",
-        9 to "Alligator",
-        12 to "Kayak",
-        15 to "Giraffe neck",
-        20 to "School bus",
-        25 to "T-Rex",
-        30 to "Train Car (1 bogie)",
-        35 to "London Double-Decker Bus",
-        40 to "Shipping Container",
-        50 to "Semi Truck Trailer",
-        60 to "Humpback Whale",
-        70 to "Boeing 737 Wing",
-        80 to "Brontosaurus (est.)",
-        90 to "Baseball Diamond Baseline",
-        100 to "Giant Redwood Tree (small)",
-        120 to "Telephone Pole Stack (3x)",
-        150 to "Blue Whale (full length)",
-        180 to "Apollo Saturn V Rocket",
-        200 to "Statue of Liberty (to torch)",
-        250 to "Suspension Bridge Span",
-        275 to "Football Field Sideline",
-        300 to "The Eiffel Tower Base Width"
+    val scrollMilestones = listOf(
+        ScrollMilestone(1, "One banana down. Proud of yourself?🍌"),
+        ScrollMilestone(2, "A cat's worth already? Even whiskers are judging you.🐈"),
+        ScrollMilestone(4, "You've scrolled a whole leg. Yours are probably asleep.🦵"),
+        ScrollMilestone(6, "Congratulations. You've out-scrolled a human life.🧍"),
+        ScrollMilestone(9, "That's a full alligator of doomscrolling 🐊. Snap out of it."),
+        ScrollMilestone(12, "You're literally paddling through nonsense. 🚣‍♂ Is it worth it?"),
+        ScrollMilestone(15, "Giraffe-high scrolls detected. 🦒 Perspective check: what are you even looking for?"),
+        ScrollMilestone(20, "Bus full of scrolls. 🚌 All headed nowhere fast."),
+        ScrollMilestone(25, "Jurassic-level scrolling. 🦖 Fossils are impressed, but why are you still here?"),
+        ScrollMilestone(30, "You just filled a train car with useless content. 🚃 All aboard the regret express."),
+        ScrollMilestone(100, "Redwood scroll height achieved. 🌲 That's not enlightenment, that's avoidance."),
+        ScrollMilestone(120, "Three poles of scroll. 📶 Your signal's strong, but your willpower? Not so much."),
+        ScrollMilestone(180, "You've launched into scroll orbit. Come back to Earth, please.🚀"),
+        ScrollMilestone(250, "You've scrolled across a bridge 🌉  sadly, not out of your habits")
     )
 
-    // Demotivating, short action phrases (1-3 words)
-    val actions = listOf(
-        "Wasted time",
-        "Nothing gained",
-        "Empty scroll",
-        "Hopelessly swiped",
-        "Pointless move"
-    )
-
-    // Additional descriptors for variety.
-    val measurements = listOf(
-        "tall", "long", "end-to-end",
-        "stacked", "laid out", "in a row"
-    )
-
-    // Convert objects list into thresholds (in pixels) paired with their names.
-    val objectThresholds = objects.map { (value, name) -> value * feetToPixels to name }
-
-    // Find the appropriate object for the given scrollPixels.
-    val result = objectThresholds.lastOrNull { (threshold, _) -> scrollPixels >= threshold }
-
-    return if (result != null) {
-        val (threshold, objectName) = result
-        val count = (scrollPixels.toFloat() / threshold).roundToInt()
-        val displayName = if (count > 1) "${objectName}s" else objectName
-
-        // Unique key for deterministic selection.
-        val optionKey = "$threshold-$objectName-$count"
-        val actionIndex = optionKey.hashCode().absoluteValue % actions.size
-        val chosenAction = actions[actionIndex]
-        val measurementKey = "$optionKey-measurement"
-        val measurementIndex = measurementKey.hashCode().absoluteValue % measurements.size
-        val chosenMeasurement = measurements[measurementIndex]
-
-        // Note the inserted space after chosenAction to ensure smooth concatenation.
-        "$chosenAction ${if (count > 1) "$count" else "One"} $displayName $chosenMeasurement!"
-    } else {
-        // Fallback: if scrollPixels is too small, convert pixels to feet.
-        val feet = (scrollPixels.toFloat() / feetToPixels).roundToInt()
-        val optionKey = "fallback-$feet"
-        val actionIndex = optionKey.hashCode().absoluteValue % actions.size
-        val chosenAction = actions[actionIndex]
-        "$chosenAction ${feet} ft"
+    // Convert thresholds to pixels
+    val pixelMilestones = scrollMilestones.map { 
+        ScrollMilestone(it.thresholdInFeet * feetToPixels, it.message) 
     }
+
+    // Find the appropriate message for the given scrollPixels
+    val result = pixelMilestones.lastOrNull { it.thresholdInFeet <= scrollPixels }
+
+    return result?.message ?: "You've started scrolling..." // Fallback message
 }
 
 data class EmojiObject(

@@ -6,7 +6,7 @@ https://www.canva.com/design/DAGkhkKYT8U/b1D-GqPs3mJG3xJNLD2L-A/view?utm_content
 
 ## About
 
-SageTech is a unique mobile application designed to help you become more mindful of your scrolling habits on social media and other apps. Instead of completely blocking your access to your favorite applications, SageTech takes a more gradual approach to help you develop healthier digital habits.
+scrollana is a unique mobile application designed to help you become more mindful of your scrolling habits on social media and other apps. Instead of completely blocking your access to your favorite applications, SageTech takes a more gradual approach to help you develop healthier digital habits.
 
 ## Key Features
 
@@ -20,12 +20,12 @@ SageTech is a unique mobile application designed to help you become more mindful
 - Humorous yet pointed messages encourage you to be mindful of your scrolling
 - Designed to interrupt the "doom scrolling" cycle without preventing necessary app use
 
-### 👥 Social Accountability
+### 👥 Social Accountability(to be build)
 - Connect with friends to compare scrolling habits
 - Leaderboard showcases friends who scroll the least
 - Friendly competition to encourage healthier digital behavior
 
-## Why SageTech is Different
+## Why scrollana is Different
 
 Unlike time-based app blockers or complete lockouts, SageTech allows you to:
 - Still use apps when you genuinely need them (reply to messages, check important updates)

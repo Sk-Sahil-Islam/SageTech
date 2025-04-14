@@ -7,10 +7,10 @@ https://www.canva.com/design/DAGkhkKYT8U/b1D-GqPs3mJG3xJNLD2L-A/view?utm_content
 
 ## Application link :
 https://drive.google.com/drive/folders/1VzSD8xm5vhSB5V3hxaWrm6OR7iPofp6e?usp=sharing 
-###1.TURN OFF PLAY PROTECT
-###2.GO TO APP INFO TOP RIGHT THREE DOT ALLOW RESTRICTED SETTINGS
-###3.ALLOW OVERLAY
-###4.ENABLE ACCESSEBILITY
+### 1.TURN OFF PLAY PROTECT
+### 2.GO TO APP INFO TOP RIGHT THREE DOT ALLOW RESTRICTED SETTINGS
+### 3.ALLOW OVERLAY
+### 4.ENABLE ACCESSEBILITY
 
 ## About
 

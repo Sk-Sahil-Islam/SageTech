@@ -2,11 +2,10 @@ package com.example.sagetech
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,8 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 @Composable
 fun DoomScrollOverlay(
@@ -32,31 +29,35 @@ fun DoomScrollOverlay(
         targetValue = (scrollDistance.coerceAtMost(1000).toFloat() / 1000f)
     )
 
-    // Display a simple overlay that shows the measurement.
-    Box(
+    Card(
         modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
-            .padding(16.dp)
-//            .clip(RoundedCornerShape(12.dp))
-//            .background(Color.Black.copy(alpha = overlayAlpha))
-//            .padding(16.dp)
-
-    ) {
-        Text(
-            text = measurement,
-            color = Color.Black,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .align(Alignment.Center)
-
-//                .padding(16.dp)
+            .padding(16.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
         )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Add the emoji icon that scales with scroll distance
+            DistanceObjectIcon(scrollDistance = scrollDistance)
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            // Display the scroll message
+            Text(
+                text = measurement,
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
     }
 }
-
-
 
 data class ScrollMilestone(
     val thresholdInFeet: Int,
@@ -81,7 +82,7 @@ fun formatScrollDistance(scrollPixels: Int): String {
         ScrollMilestone(100, "Redwood scroll height achieved. 🌲 That's not enlightenment, that's avoidance."),
         ScrollMilestone(120, "Three poles of scroll. 📶 Your signal's strong, but your willpower? Not so much."),
         ScrollMilestone(180, "You've launched into scroll orbit. Come back to Earth, please.🚀"),
-        ScrollMilestone(250, "You've scrolled across a bridge 🌉  sadly, not out of your habits")
+        ScrollMilestone(250, "You've scrolled across a bridge 🌉 sadly, not out of your habits")
     )
 
     // Convert thresholds to pixels
@@ -94,8 +95,3 @@ fun formatScrollDistance(scrollPixels: Int): String {
 
     return result?.message ?: "You've started scrolling..." // Fallback message
 }
-
-data class EmojiObject(
-    val emojiId: String,
-    val feet: Int
-)

@@ -1,6 +1,9 @@
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
@@ -87,10 +90,17 @@ object OverlayWindowManager {
 
     // Update the overlay by setting its Compose content
     fun updateOverlay(scrollDistance: Int) {
-        overlayView?.post {
-            overlayView?.setContent {
-                DoomScrollOverlay(scrollDistance = scrollDistance)
+        try {
+            overlayView?.let { view ->
+                // Use main thread to update the UI
+                Handler(Looper.getMainLooper()).post {
+                    view.setContent {
+                        DoomScrollOverlay(scrollDistance = scrollDistance)
+                    }
+                }
             }
+        } catch (e: Exception) {
+            Log.e("OverlayWindowManager", "Failed to update overlay", e)
         }
     }
 
@@ -102,4 +112,21 @@ object OverlayWindowManager {
             overlayView = null
         }
     }
+
+    // Add SharedPreferences to persist scroll distance
+    private const val PREFS_NAME = "doom_scroll_prefs"
+    private const val KEY_SCROLL_DISTANCE = "total_scroll_distance"
+
+    // Load saved scroll distance
+    fun getSavedScrollDistance(context: Context): Int {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getInt(KEY_SCROLL_DISTANCE, 0)
+    }
+
+    // Save current scroll distance
+    fun saveScrollDistance(context: Context, scrollDistance: Int) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putInt(KEY_SCROLL_DISTANCE, scrollDistance).apply()
+    }
+
 }

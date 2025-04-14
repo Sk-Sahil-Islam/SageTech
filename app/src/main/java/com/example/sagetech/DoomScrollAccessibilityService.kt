@@ -4,6 +4,8 @@ import android.accessibilityservice.AccessibilityService
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.app.NotificationCompat
@@ -13,11 +15,27 @@ class DoomScrollAccessibilityService : AccessibilityService() {
 
     companion object {
         var totalScrollDistance = 0
-        private var lastScrollY = 0
+        private var lastScrollY = -1
+        private const val MAX_JUMP = 5000
+        private const val SAVE_INTERVAL_MS = 5000L // Save every 5 seconds
+    }
+
+    private val saveHandler = Handler(Looper.getMainLooper())
+    private val saveRunnable = object : Runnable {
+        override fun run() {
+            OverlayWindowManager.saveScrollDistance(this@DoomScrollAccessibilityService, totalScrollDistance)
+            saveHandler.postDelayed(this, SAVE_INTERVAL_MS)
+        }
     }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+
+        // Load saved scroll distance
+        totalScrollDistance = OverlayWindowManager.getSavedScrollDistance(this)
+
+        // Start periodic saving
+        saveHandler.postDelayed(saveRunnable, SAVE_INTERVAL_MS)
 
         // Create a notification channel (required for Android 8.0+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -46,34 +64,45 @@ class DoomScrollAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        Log.e("DoomScrollService", "Received event type: ${event?.eventType}")
-        if (event?.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
-            // Get the current scroll position
-            val currentScrollY = event.scrollY
+        event?.takeIf { it.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED }?.let { ev ->
+            // Instead of relying on scrollY, use the fromIndex and toIndex from the event
+            // or use a pixel-based estimation
 
-            // Calculate the delta (how much was scrolled since last event)
-            val delta = if (lastScrollY > 0) {
-                // Only calculate delta if we have a previous value
-                // Take absolute value to count both up and down scrolling
-                abs(currentScrollY - lastScrollY)
+            // Method 1: Use itemCount if available (for RecyclerView/ListView scrolling)
+            val itemCount = ev.itemCount
+            val fromIndex = ev.fromIndex
+            val toIndex = ev.toIndex
+
+            // Calculate an estimated scroll distance
+            var delta = 0
+
+            if (itemCount > 0 && fromIndex >= 0 && toIndex >= 0) {
+                // For list-based scrolling, estimate based on items scrolled
+                val itemsScrolled = abs(toIndex - fromIndex)
+                delta = itemsScrolled * 50 // Assume average item height of 50px
+                Log.d("ScrollDebug", "List scroll: from=$fromIndex, to=$toIndex, items=$itemsScrolled")
             } else {
-                // First scroll event
-                0
+                // For pixel-based scrolling, use a fixed increment
+                // This is a fallback when we can't get precise measurements
+                delta = 20 // Assume a standard small scroll increment
+                Log.d("ScrollDebug", "Generic scroll detected, using default increment")
             }
 
-            // Update the last scroll position for next calculation
-            lastScrollY = currentScrollY
+            // Apply the delta with the same constraints as before
+            delta = delta.coerceAtMost(MAX_JUMP)
 
-            // Only update if we have a meaningful delta
-            if (delta > 0 && delta < 10000) { // Ignore unreasonably large jumps
+            if (delta > 0) {
                 totalScrollDistance += delta
-                Log.e("DoomScrollService", "Scroll delta: $delta, Total: $totalScrollDistance")
+                Log.d("ScrollTrack", "Delta: $delta, Total: $totalScrollDistance")
 
-                // Update the overlay
-                OverlayWindowManager.updateOverlay(totalScrollDistance)
+                Handler(Looper.getMainLooper()).post {
+                    OverlayWindowManager.updateOverlay(totalScrollDistance)
+                }
             }
         }
     }
+
+
 
     override fun onInterrupt() {
         // Handle interruption
@@ -81,7 +110,9 @@ class DoomScrollAccessibilityService : AccessibilityService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Clean up the overlay when the service is destroyed
+        // Save final value and remove callbacks
+        OverlayWindowManager.saveScrollDistance(this, totalScrollDistance)
+        saveHandler.removeCallbacks(saveRunnable)
         OverlayWindowManager.removeOverlay()
     }
 

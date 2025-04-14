@@ -1,4 +1,8 @@
-# SageTech Doom Scroll App   || Summer of CodeFest'25   ||   GsoC innovators Club
+# SageTech Doom Scroll App   || #SummerofCodeFest'25   ||   #GsoCinnovatorsClub || #GSoCinnovators
+
+
+## presentation link:
+https://www.canva.com/design/DAGkhkKYT8U/b1D-GqPs3mJG3xJNLD2L-A/view?utm_content=DAGkhkKYT8U&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbc2c740975
 
 ## About
 

@@ -1,4 +1,4 @@
-# SageTech Doom Scroll App
+# SageTech Doom Scroll App   || Summer of CodeFest'25   ||   GsoC innovators Club
 
 ## About
 

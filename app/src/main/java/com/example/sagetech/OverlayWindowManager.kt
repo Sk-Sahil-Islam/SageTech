@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
+import com.example.sagetech.DoomScrollMode
 import com.example.sagetech.DoomScrollOverlay
 
 object OverlayWindowManager {
@@ -65,7 +66,7 @@ object OverlayWindowManager {
 
         // Set up window layout parameters for the overlay
         val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -123,6 +124,39 @@ object OverlayWindowManager {
             (viewModelStoreOwner.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.DESTROYED
             windowManager?.removeView(overlayView)
             overlayView = null
+        }
+    }
+
+    // Add this function to OverlayWindowManager
+    fun resetScrollDistance(context: Context) {
+        // Clear the preference value
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit()
+            .putInt(KEY_SCROLL_DISTANCE, 0)
+            .commit() // Use commit() instead of apply() for immediate write
+
+        // Update the overlay to show zero distance
+        updateOverlay(0)
+
+        // Log the reset action
+        Log.d("OverlayWindowManager", "Scroll distance has been reset to 0")
+    }
+
+    // Add this function to OverlayWindowManager
+    fun updateOverlayMode(mode: DoomScrollMode) {
+        try {
+            overlayView?.let { view ->
+                // Use main thread to update the UI
+                Handler(Looper.getMainLooper()).post {
+                    view.setContent {
+                        // Get the current scroll distance
+                        val scrollDistance = getSavedScrollDistance(view.context)
+                        DoomScrollOverlay(scrollDistance = scrollDistance, mode = mode)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("OverlayWindowManager", "Failed to update overlay mode", e)
         }
     }
 

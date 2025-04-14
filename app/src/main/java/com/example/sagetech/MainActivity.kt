@@ -51,8 +51,6 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 HomeScreen()
             }
-
-
         }
 
     }
@@ -83,12 +81,4 @@ class MainActivity : ComponentActivity() {
             .show()
     }
 
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }

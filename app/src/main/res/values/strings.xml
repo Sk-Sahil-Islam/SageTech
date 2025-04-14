@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SageTech</string>
+    <string name="app_name">Scrollana</string>
     <string name="accessibility_service_description">Tracks scrolling distance across apps and displays it as an overlay.</string>
 </resources>

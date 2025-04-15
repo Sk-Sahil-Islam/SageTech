@@ -63,7 +63,7 @@ SageTech values your privacy:
 ## Contributors
 Ikshu Patni 
 Sk Sahil Islam 
-Sheryash Neera
+Sheryash Neeraj
 Ansuman Samal
 
 
